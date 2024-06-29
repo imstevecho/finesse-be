@@ -21,7 +21,12 @@ import { defineConfig } from "@eddeee888/gcg-typescript-resolver-files";
 const config: CodegenConfig = {
   schema: "src/graphql/schema.graphql",
   generates: {
-    "src/graphql/generated": defineConfig(),
+    "./src/graphql/generated/graphql.ts": {
+      config: {
+        useIndexSignature: true,
+      },
+      plugins: ["typescript", "typescript-resolvers"],
+    },
   },
 };
 export default config;

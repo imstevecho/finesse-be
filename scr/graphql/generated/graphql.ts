@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null | undefined;
-export type InputMaybe<T> = T | null | undefined;
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -23,7 +23,7 @@ export type Mutation = {
 };
 
 
-export type MutationquoteArgs = {
+export type MutationQuoteArgs = {
   symbol: Scalars['String']['input'];
 };
 
@@ -44,7 +44,8 @@ export type QuoteResult = {
   symbol: Scalars['String']['output'];
 };
 
-
+export type WithIndex<TObject> = TObject & Record<string, any>;
+export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -114,40 +115,40 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
+export type ResolversTypes = ResolversObject<{
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
   Query: ResolverTypeWrapper<{}>;
   QuoteResult: ResolverTypeWrapper<QuoteResult>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-};
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
+}>;
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
+export type ResolversParentTypes = ResolversObject<{
+  Boolean: Scalars['Boolean']['output'];
+  Float: Scalars['Float']['output'];
   JSON: Scalars['JSON']['output'];
   Mutation: {};
-  String: Scalars['String']['output'];
   Query: {};
   QuoteResult: QuoteResult;
-  Float: Scalars['Float']['output'];
-  Boolean: Scalars['Boolean']['output'];
-};
+  String: Scalars['String']['output'];
+}>;
 
-export interface JSONScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  quote?: Resolver<ResolversTypes['QuoteResult'], ParentType, ContextType, RequireFields<MutationquoteArgs, 'symbol'>>;
-};
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  quote?: Resolver<ResolversTypes['QuoteResult'], ParentType, ContextType, RequireFields<MutationQuoteArgs, 'symbol'>>;
+}>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-};
+}>;
 
-export type QuoteResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuoteResult'] = ResolversParentTypes['QuoteResult']> = {
+export type QuoteResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuoteResult'] = ResolversParentTypes['QuoteResult']> = ResolversObject<{
   change?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   changePercent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   companyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -157,12 +158,12 @@ export type QuoteResultResolvers<ContextType = any, ParentType extends Resolvers
   previousClose?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
+}>;
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = any> = ResolversObject<{
   JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   QuoteResult?: QuoteResultResolvers<ContextType>;
-};
+}>;
 
