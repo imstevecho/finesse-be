@@ -9,7 +9,7 @@ const client = new Client({
 
 const getQuote = (symbol: string) => {
   return client.apperate.queryData({
-    key: "AAPL",
+    key: symbol,
     workspace: "CORE",
     id: "QUOTE",
   });
