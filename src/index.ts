@@ -1,18 +1,11 @@
+require("dotenv").config();
+import resolvers from "./graphql/resolvers";
+
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { gql } from "graphql-tag";
+import { readFileSync } from "fs";
 
-const typeDefs = gql`
-  type Query {
-    hello: String!
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => "Hello client!",
-  },
-};
+const typeDefs = readFileSync("./src/graphql/schema.graphql", "utf-8");
 
 const server = new ApolloServer({
   typeDefs,

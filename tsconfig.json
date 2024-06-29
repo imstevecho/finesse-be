@@ -4,6 +4,7 @@
     "lib": ["ESNext"],
     "outDir": "dist",
   },
-  "include": ["src"],
-  "exclude": ["node_mmodules", "**/*.test.ts"]
+  "include": ["src", "typings.d.ts"],
+  "exclude": ["node_mmodules", "**/*.test.ts"],
+  "ts-node": {"files": true}
 }
